@@ -30,7 +30,8 @@ def parseJson(filename):
     """
 
     with open(filename, mode='r', encoding='utf-8') as f:
-        content = ''.join(f.readlines())
+        filecontent = ''.join(f.readlines())
+        content = filecontent
 
         # Looking for comments
         match = comment_re.search(content)
@@ -44,7 +45,11 @@ def parseJson(filename):
         content = re.sub(r',([ \t\r\n]+)\]', r'\1]', content)
 
         # Return json file
-        return json.loads(content, encoding='utf-8')
+        try:
+            return json.loads(content, encoding='utf-8')
+        except Exception:
+            return json.loads(filecontent, encoding='utf-8')
+
 
 
 def saveJson(content, filename):
